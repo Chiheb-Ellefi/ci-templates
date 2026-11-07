@@ -6,15 +6,11 @@ on:
         type: string
         required: true
 
-permissions:
-  contents: read
-  security-events: write
-  actions: read
-  packages: write
+
 
 jobs:
   ci:
-    uses: ./.github/workflows/java-ci.yml
+    uses: Chiheb-Ellefi/ci-templates/.github/workflows/java-ci.yml@v2.0.1
     permissions:
       contents: read
       security-events: write
@@ -43,7 +39,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=sha,format=long
-            type=raw,value=latest,enable=${{ !github.event.release.prerelease }}
+            type=raw,value=latest,enable=${{ github.event_name == 'release' && !github.event.release.prerelease }}
 
       - name: Build image locally for scanning
         uses: docker/build-push-action@v7
