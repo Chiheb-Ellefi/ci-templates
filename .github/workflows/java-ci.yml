@@ -98,4 +98,20 @@ jobs:
           path: target/surefire-reports
           if-no-files-found: ignore
 
+      - name: Coverage summary
+        if: always()
+        run: |
+          f=target/site/jacoco/jacoco.csv
+          if [ -f "$f" ]; then
+            awk -F, 'NR>1 {m+=$8; c+=$9} END {if (m+c>0) printf "### Test coverage\nLine coverage: %.1f%%\n", c/(m+c)*100}' "$f" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: jacoco-report
+          path: target/site/jacoco
+          if-no-files-found: ignore
+
 
