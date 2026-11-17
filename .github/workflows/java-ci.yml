@@ -40,6 +40,7 @@ jobs:
         run: mvn -B checkstyle:check spotbugs:check pmd:check
 
       - name: Secret scan
+        if: github.event_name != 'release'
         uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ github.token }}
