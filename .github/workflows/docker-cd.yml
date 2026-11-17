@@ -7,14 +7,7 @@ on:
         required: true
 
 jobs:
-  ci:
-    uses: Chiheb-Ellefi/ci-templates/.github/workflows/java-ci.yml@v2.0.1
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
   build-scan-push:
-    needs: ci
     name: Build, scan and push image
     runs-on: ubuntu-latest
     timeout-minutes: 30
